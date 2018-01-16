@@ -1,6 +1,5 @@
 const getFilesReadyToUpload = require('./getFilesReadyToUpload');
-const uploadVideo = require('./uploadVideo');
-const getUploadedFiles = require('./getUploadedFiles');
+const {uploadVideo, getUploadStatus, isUploadInProgress, getUploadedFiles} = require('./videoUploader');
 const parseVideoInfoFromFileName = require('./parseVideoInfoFromFileName');
 const R = require('ramda');
 const storage = require('node-persist');
@@ -12,6 +11,7 @@ storage.initSync();
 
 app.get('/uploaded-files', (req, res) => res.json(getUploadedFiles()));
 app.get('/ready-to-upload', (req, res) => res.json(getFilesReadyToUpload(VIDEOS_DIR)));
+app.get('/upload-status', (req, res) => res.json(getUploadStatus()));
 app.listen(5000);
 
 setInterval(() => {
@@ -21,6 +21,9 @@ setInterval(() => {
 
 	filesToUpload.forEach(file => {
 		const videoInfo = parseVideoInfoFromFileName(file);
-		uploadVideo(file, videoInfo);
+
+		if (!isUploadInProgress()) {
+			uploadVideo(file, videoInfo);
+		}
 	});
 }, 1000);
