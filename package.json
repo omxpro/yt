@@ -1,0 +1,24 @@
+{
+  "name": "youtube-uploader",
+  "version": "0.0.1",
+  "description": "Bulk video uploader for Youtube",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andormade/youtube-uploader.git"
+  },
+  "author": "Andor Polgar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andormade/youtube-uploader/issues"
+  },
+  "homepage": "https://github.com/andormade/youtube-uploader#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "node-persist": "^2.1.0",
+    "ramda": "^0.25.0"
+  }
+}
