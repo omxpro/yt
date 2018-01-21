@@ -18,7 +18,9 @@
   "homepage": "https://github.com/andormade/youtube-uploader#readme",
   "dependencies": {
     "express": "^4.16.2",
+    "jsonfile": "^4.0.0",
     "node-persist": "^2.1.0",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "youtube-api": "^2.0.9"
   }
 }
