@@ -1,8 +1,8 @@
 {
-  "name": "youtube-uploader",
+  "name": "automatic-youtube-uploader",
   "version": "0.0.1",
   "description": "Bulk video uploader for Youtube",
-  "main": "src/index.js",
+  "bin": "bin/automatic-youtube-uploader.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,6 +1,7 @@
 const storage = require('node-persist');
 const fs = require('fs');
 const Youtube = require('youtube-api');
+const timestamp = require('./timestamp');
 
 let isUploadInProgress = false;
 let error = null;
@@ -9,7 +10,7 @@ storage.initSync();
 
 function getUploadedVideos() {
 	const uploadedVideos = storage.getItemSync('uploadedVideos');
-	return uploadedVideos ? uploadedVideos : [];
+	return uploadedVideos ? [...uploadedVideos] : [];
 }
 
 function addUploadedVideo(file) {
@@ -22,18 +23,18 @@ function addUploadedVideo(file) {
 function removeUploadedVideo(file) {
 	const uploadedVideos = getUploadedVideos();
 
-	if (uploadedVideos.indexOf(file) === -1) {
-		return;
-	}
-
 	storage.setItemSync(
 		'uploadedVideos',
-		uploadedVideos.splice(uploadedVideos.indexOf(file), 1)
+		uploadedVideos.filter(video => {
+			return video !== file;
+		})
 	);
 }
 
 module.exports.uploadVideo = function(file, info) {
 	isUploadInProgress = true;
+
+	console.log(timestamp(), 'Upload started: ', file);
 
 	const videoData = {
 		resource : {
@@ -56,11 +57,11 @@ module.exports.uploadVideo = function(file, info) {
 		isUploadInProgress = false;
 
 		if (err) {
-			console.log('ERROR', file, err);
+			console.log(timestamp(), 'Upload error: ', file, err);
 			error = err;
 		}
 		else {
-			console.log('SUCCESS', file, data);
+			console.log(timestamp(), 'Upload success: ', file);
 			addUploadedVideo(file);
 		}
 	});

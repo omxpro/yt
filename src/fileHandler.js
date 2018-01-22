@@ -3,11 +3,13 @@ const path = require('path');
 const crypto = require('crypto');
 const R = require('ramda');
 
+const SUPPORTED_EXTENSIONS = ['.mov', '.mp4', '.flv', '.mpegps', '.wmv', '.avi', '.mpeg4'];
+
 const isProperFile = function(file) {
 	const ext = path.extname(file);
 
 	return (
-		['.mov', '.mp4'].indexOf(ext) !== -1  &&
+		SUPPORTED_EXTENSIONS.indexOf(ext) !== -1  &&
 		path.basename(file, ext).split('|').length === 2
 	);
 };
@@ -30,18 +32,12 @@ module.exports.getVideosNotReady = function(path) {
 
 module.exports.getVideosReadyToUpload = function(path) {
 	const now = Date.now();
-	const files = [];
 	const timeout = 180000;
 
-	getAllVideos(path).forEach(file => {
+	return getAllVideos(path).filter(file => {
 		const mtime = fs.statSync(path + '/' + file).mtime.getTime();
-
-		if (mtime < (now - timeout)) {
-			files.push(file);
-		}
+		return mtime < (now - timeout);
 	});
-
-	return files;
 };
 
 module.exports.parseVideoInfoFromFileName = function(file) {
