@@ -2,17 +2,15 @@ const Jsonfile = require('jsonfile');
 const Youtube = require('youtube-api');
 
 const CREDENTIALS_FILE = './credentials.json';
-//const REDIRECT_DOMAIN = 'analzone.andor.cool';
-const REDIRECT_DOMAIN = 'localhost:5000';
 
-module.exports.getOauth = function() {
+module.exports.getOauth = function(redirectUrl) {
 	this.credentials = Jsonfile.readFileSync(CREDENTIALS_FILE);
 
 	return Youtube.authenticate({
 		type          : 'oauth',
 		client_id     : this.credentials.web.client_id,
 		client_secret : this.credentials.web.client_secret,
-		redirect_url  : 'http://' + REDIRECT_DOMAIN + '/oauth2callback'
+		redirect_url  : redirectUrl
 	});
 };
 

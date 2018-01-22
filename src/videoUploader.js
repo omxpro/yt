@@ -3,6 +3,8 @@ const fs = require('fs');
 const Youtube = require('youtube-api');
 const timestamp = require('./timestamp');
 
+const VIDEOS_DIR = './';
+
 let isUploadInProgress = false;
 let error = null;
 
@@ -33,6 +35,7 @@ function removeUploadedVideo(file) {
 
 module.exports.uploadVideo = function(file, info) {
 	isUploadInProgress = true;
+	error = 'no error';
 
 	console.log(timestamp(), 'Upload started: ', file);
 
@@ -49,7 +52,7 @@ module.exports.uploadVideo = function(file, info) {
 		},
 		part  : 'snippet,status',
 		media : {
-			body : fs.createReadStream('./videos/' + file)
+			body : fs.createReadStream(VIDEOS_DIR + file)
 		}
 	};
 

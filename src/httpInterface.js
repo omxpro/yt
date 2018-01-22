@@ -9,9 +9,9 @@ const R = require('ramda');
 
 const VIDEOS_DIR = './';
 
-module.exports = function(port) {
+module.exports = function(protocol, host, port) {
 	const app = express();
-	const oauth = getOauth();
+	const oauth = getOauth(protocol + '://' + host + ':' + port + '/oauth2callback');
 	const authUrl = generateAuthUrl(oauth);
 
 	app.get('/', (req, res) => {
